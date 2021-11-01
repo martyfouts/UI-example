@@ -35,7 +35,9 @@ if 'bpy' in locals():
             reload(v)
 # End of recursive reload support
 
+import types
 import bpy
+from bpy.types import Scene
 
 from . uix_ops import UIX_OT_hello
 from . uix_panel import (UIX_PT_side_panel, 
@@ -52,6 +54,38 @@ classes = [
             UIX_PT_fancy_panel,
             ]
 
+#------------------------------------------------------------------------------
+# This is a bit of a hack, simply to show various properties in Use.
+# You can't attach operator properties to a panel, so instead, this creates
+# example properties and attaches them to the Scene type so they can be
+# accessed in one of the panels
+# see also https://docs.blender.org/api/current/bpy.props.html
+#------------------------------------------------------------------------------
+def add_properties():
+
+    # This will track a single boolean. In a panel it is displayed as a checkbox,
+    # with checked = True
+    bpy.types.Scene.check_box = bpy.props.BoolProperty(
+        name="Sample checkbox",
+        description="This is a checkbox sample",
+        default=True,
+    )
+
+    # FloatVectorProperty is rather amusing because its subtype determines
+    # both what it contains and how it appears in a panel or other display
+    bpy.types.Scene.example_color = bpy.props.FloatVectorProperty(
+    name='example color',
+    description = 'pick a color',
+    default=(0.8,0.8,0.8),
+    min=0.0,
+    max=1.0,
+    subtype='COLOR',
+)
+
+def remove_properties():
+    del bpy.types.Scene.example_color
+    del bpy.types.Scene.check_box
+
 def register():
     for c in classes:
         bpy.utils.register_class(c)
@@ -65,14 +99,18 @@ def register():
         default="kthxbai",
     )
 
+    add_properties()
+
 def unregister():
     for c in classes:
         if 'deinitialize' in dir(c):
             c.deinitialize()
         bpy.utils.unregister_class(c)
 
-    # remove he scene custom property for the greeting text
+    # remove the scene custom property for the greeting text
     del bpy.types.Scene.GreetingText
+
+    remove_properties()
 
 if __name__ == '__main__':
     register()
