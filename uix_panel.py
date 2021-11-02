@@ -80,23 +80,48 @@ class UIX_PT_fancy_panel(Panel, UIX_panel_common):
 
     def draw(self, context):
         layout = self.layout
+
+        # This is not working. I don't know why
         layout.alignment = 'CENTER'
+
+        # Overall label at top of panel
         layout.label(text="fancy panel")
+
+        # A wee bit of space.
         layout.separator()
+
+        # A label consisting of just an icon
         layout.label(icon="BLENDER")
+
+        # A row, consisting of two columns.
         row = layout.row()
+        # The first column goes on the left
+        # Here I put a simple operator
+        # Note the use of an icon
         col = row.column()
         col.label(text="L")
         col.operator("uix.hello", text="fancy hello", icon='TRASH')
+        # The second column goes on the right
+        # Here I duplicate the simple operator
+        # But without an icon
         col = row.column()
         col.label(text='R')
         col.operator("uix.hello")
+
+        # A new row, dedicated to custom properties
+        # It has a single column that contains several
+        # examples of displays of custom properties
+        # that are attached to the scene.
         row = layout.row()
         row.separator()
         col = row.column()
         col.label(text="Custom properties")
         col.prop(context.scene, 'check_box')
         col.prop(context.scene, 'example_color')
+
+        # A new row, dedicated to examples of confirmation dialogs
+        # These are from a stack exchange answer (See uix_ops.py
+        # for references and details.)
         row = layout.row()
         row.operator("uix.custom_prop_confirm_dialog",
                     text="Props")
@@ -110,5 +135,7 @@ class UIX_PT_fancy_panel(Panel, UIX_panel_common):
         # 'confirmation dialog' in this case, then you can pass 'INVOKE_DEFAULT'
         # as execution context when calling the operator which will also run
         # its invoke() method:
+        # Note that wm.read_homefile only asks for confirmation if the current
+        # session is dirty.
         row.operator_context = 'INVOKE_DEFAULT' #'INVOKE_AREA'
         row.operator("wm.read_homefile", text="New", icon='FILE_NEW')
