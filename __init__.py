@@ -42,6 +42,7 @@ from bpy.types import Scene
 from . uix_ops import (UIX_OT_hello,
                         UIX_OT_ConfirmOperator,
                         UIX_OT_PropConfirmOperator,
+                        UIX_OT_ImportFiles,
 )
 
 from . uix_panel import (UIX_PT_side_panel, 
@@ -58,6 +59,7 @@ classes = [
             UIX_PT_fancy_panel,
             UIX_OT_ConfirmOperator,
             UIX_OT_PropConfirmOperator,
+            UIX_OT_ImportFiles,
 ]
 
 #------------------------------------------------------------------------------

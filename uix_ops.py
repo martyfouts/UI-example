@@ -12,9 +12,12 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import bpy
-from bpy.types import Operator
+from bpy.types import Operator, OperatorFileListElement
+from bpy.props import CollectionProperty, StringProperty
+from pathlib import Path
 
 hello_keymap = None
+default_directory = r'c:\tmp' # ugly Windows specificity fix later
 
 def ShowMessageBox(message = "", title = "Message Box", icon = 'INFO'):
     """ a hack that uses a popup menu as a message box"""
@@ -25,6 +28,9 @@ def ShowMessageBox(message = "", title = "Message Box", icon = 'INFO'):
 def mesh_add_menu_draw(self, context):
     """ adds a menu entry when the function is added to an existing menu"""
     self.layout.operator("uix.hello")
+
+def UIX_menu_import(self, context):
+    self.layout.operator("uix.import_files", text="Import files").directory=default_directory
 
 class UIX_OT_hello(Operator):
     """A very stupid operator entirely for the purpose of demonstration"""
@@ -54,9 +60,9 @@ class UIX_OT_hello(Operator):
     # unfortunate consequence of alway popping up the setting dialog
     # You can avoid this if you set the UNDO option in bl_options
     # That way the "last operator" panel will popup and allow the adjustment
-#    def invoke(self, context, event):
-#        wm = context.window_manager
-#        return wm.invoke_props_dialog(self)
+    #    def invoke(self, context, event):
+    #        wm = context.window_manager
+    #        return wm.invoke_props_dialog(self)
 
     def execute(self, context):
         # display the message in a popup
@@ -162,3 +168,37 @@ class UIX_OT_PropConfirmOperator(bpy.types.Operator):
         row = self.layout
         row.prop(self, "prop1", text="Property A")
         row.prop(self, "prop2", text="Property B")
+
+# A class that has a menu entry that uses the file picker
+class UIX_OT_ImportFiles(bpy.types.Operator):
+    """deal with some files read selected through the file browser"""
+    bl_idname = "uix.import_files"
+    bl_label = "give me some files to play with"
+    bl_description = "An operator that uses the file browser"
+    bl_options = {'REGISTER', 'UNDO'}
+
+    directory : StringProperty(subtype='DIR_PATH')
+    files : CollectionProperty(type=OperatorFileListElement)
+
+    def do_import(self, import_file):
+        file = import_file.open()
+        # insert code to read and process file here
+        file.close()
+
+    def invoke(self, context, event):
+        context.window_manager.fileselect_add(self)
+        return {'RUNNING_MODAL'}
+
+    def execute(self, context):
+        base = Path(self.directory)                
+        for f in self.files:
+            self.report({'INFO'}, f"processing {base / f.name}")
+            self.do_import(base / f.name)
+        
+        return {'FINISHED'}
+
+    def initialize():
+        bpy.types.TOPBAR_MT_file_import.append(UIX_menu_import)
+
+    def deinitialize():
+        bpy.types.TOPBAR_MT_file_import.remove(UIX_menu_import)
