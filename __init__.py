@@ -39,12 +39,16 @@ import types
 import bpy
 from bpy.types import Scene
 
-from . uix_ops import UIX_OT_hello
+from . uix_ops import (UIX_OT_hello,
+                        UIX_OT_ConfirmOperator,
+                        UIX_OT_PropConfirmOperator,
+)
+
 from . uix_panel import (UIX_PT_side_panel, 
                         UIX_PT_additional_panel, 
                         UIX_PT_sub_panel, 
                         UIX_PT_fancy_panel,
-                        )
+)
 
 classes = [
             UIX_OT_hello,
@@ -52,7 +56,9 @@ classes = [
             UIX_PT_additional_panel,
             UIX_PT_sub_panel,
             UIX_PT_fancy_panel,
-            ]
+            UIX_OT_ConfirmOperator,
+            UIX_OT_PropConfirmOperator,
+]
 
 #------------------------------------------------------------------------------
 # This is a bit of a hack, simply to show various properties in Use.

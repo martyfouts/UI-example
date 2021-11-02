@@ -107,3 +107,58 @@ class UIX_OT_hello(Operator):
 
         bpy.types.VIEW3D_MT_mesh_add.remove(mesh_add_menu_draw)
         bpy.types.VIEW3D_HT_header.remove(mesh_add_menu_draw)
+
+# see https://blender.stackexchange.com/questions/73286/how-to-call-a-confirmation-dialog-box
+# for an explanation of these additional classes
+
+# For a custom conformation dialog you can wrap the operator into another one and invoke
+# invoke_confirm(operator, event) classmethod of the window-manager to confirm the
+# execution by the user.
+
+class UIX_OT_ConfirmOperator(bpy.types.Operator):
+    """Confirm Really?"""
+    bl_idname = "uix.custom_confirm_dialog"
+    bl_label = "Do you really want to confirm that?"
+    bl_description = "An operator that invokes a confirm popup"
+    bl_options = {'REGISTER', 'INTERNAL'}
+
+    @classmethod
+    def poll(cls, context):
+        return True
+
+    def execute(self, context):
+        self.report({'INFO'}, "YES!")
+        return {'FINISHED'}
+
+    def invoke(self, context, event):
+        return context.window_manager.invoke_confirm(self, event)
+    
+
+# In order to display a popup, some properties and an OK 'button' you can return 
+# wm.invoke_props_dialog(self) instead:
+
+class UIX_OT_PropConfirmOperator(bpy.types.Operator):
+    """Confirm Prop Really?"""
+    bl_idname = "uix.custom_prop_confirm_dialog"
+    bl_label = "Do you really want to conform those properties?"
+    bl_description = "An operator that invokes a confirm dialog with properties"
+    bl_options = {'REGISTER', 'INTERNAL'}
+
+    prop1: bpy.props.BoolProperty()
+    prop2: bpy.props.BoolProperty()
+
+    @classmethod
+    def poll(cls, context):
+        return True
+
+    def execute(self, context):
+        self.report({'INFO'}, "YES!")
+        return {'FINISHED'}
+
+    def invoke(self, context, event):
+        return context.window_manager.invoke_props_dialog(self)
+
+    def draw(self, context):
+        row = self.layout
+        row.prop(self, "prop1", text="Property A")
+        row.prop(self, "prop2", text="Property B")

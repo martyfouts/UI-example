@@ -97,3 +97,18 @@ class UIX_PT_fancy_panel(Panel, UIX_panel_common):
         col.label(text="Custom properties")
         col.prop(context.scene, 'check_box')
         col.prop(context.scene, 'example_color')
+        row = layout.row()
+        row.operator("uix.custom_prop_confirm_dialog",
+                    text="Props")
+        row = layout.row()
+        row.operator("uix.custom_prop_confirm_dialog",
+                    text="Confirm")
+        row = layout.row()
+        # When calling an operator via bpy.ops.* without any execution context
+        # the execute() method of the respective operator runs by default. If
+        # the operator provides any kind of 'user interaction' like a
+        # 'confirmation dialog' in this case, then you can pass 'INVOKE_DEFAULT'
+        # as execution context when calling the operator which will also run
+        # its invoke() method:
+        row.operator_context = 'INVOKE_DEFAULT' #'INVOKE_AREA'
+        row.operator("wm.read_homefile", text="New", icon='FILE_NEW')
