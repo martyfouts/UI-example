@@ -71,6 +71,13 @@ classes = [
 #------------------------------------------------------------------------------
 def add_properties():
 
+    # Add a scene custom property for the greeting text
+    bpy.types.Scene.GreetingText = bpy.props.StringProperty(
+        name="Greeting",
+        description="Words to use in greeting",
+        default="kthxbai",
+    )
+    
     # This will track a single boolean. In a panel it is displayed as a checkbox,
     # with checked = True
     bpy.types.Scene.check_box = bpy.props.BoolProperty(
@@ -93,19 +100,13 @@ def add_properties():
 def remove_properties():
     del bpy.types.Scene.example_color
     del bpy.types.Scene.check_box
+    del bpy.types.Scene.GreetingText
 
 def register():
     for c in classes:
         bpy.utils.register_class(c)
         if 'initialize' in dir(c):
             c.initialize()
-
-    # Add a scene custom property for the greeting text
-    bpy.types.Scene.GreetingText = bpy.props.StringProperty(
-        name="Greeting",
-        description="Words to use in greeting",
-        default="kthxbai",
-    )
 
     add_properties()
 
@@ -114,9 +115,6 @@ def unregister():
         if 'deinitialize' in dir(c):
             c.deinitialize()
         bpy.utils.unregister_class(c)
-
-    # remove the scene custom property for the greeting text
-    del bpy.types.Scene.GreetingText
 
     remove_properties()
 
