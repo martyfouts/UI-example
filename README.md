@@ -3,6 +3,16 @@ add menus, and other UI related aspects of an add-on.  Its only purpose
 is to provide me with reminders of how to do these things, all collected
 into one place.
 
+The original operator, three properties, and panels were designed to
+show various ways to set three parts of a text message, the sender
+receiver and body, and use buttons to to display the message.
+
+Additionally, they showed how to add a shortcut for the button and
+place menu entries in various menus
+
+An additional class contains the skeleton of an importer that uses
+the file browser.
+
 # Operators
 ## `UIX_OT_hello`
 
@@ -52,3 +62,38 @@ to have code added to read and process the contents of the file.
 ### `initialize` and `deinitialize`
 
 Add/remove an entry in the top bar File -> import menu
+
+# Panels
+
+The panels are just examples of how panel layout works, demonstrating the row
+and column layouts, the difference between additional panels and subpanels,
+and finally a kitchen-sink panel with an ever growing collection of examples.
+
+## `UIX_panel_common`
+
+A mix-in class that contains the default values for all of the `bl_*` properties
+that each of the other panels have in common.
+
+## `UIX_PT_side_panel`
+
+When the UIX tab in the sidebar is selected, this will be the top of the array of
+panels shown.  It contains a label, a button, and a sub panel.
+
+## `UIX_PT_additional_panel`
+
+This panel appears second in the side panel. It simply contains a button.
+
+## `UIX_PT_sub_panel`
+
+This panel is given a `bl_parent_id` of `UIX_PT_side_panel`. That makes it a
+subpanel of the top panel, so it appears before the additional panel, but
+indented to indicate it is a subpanel.
+
+Rather than a button, this panel contains a property, in this case attached
+to the scene, that the panel can be used to change.
+
+## `UIX_PT_fancy_panel`
+
+This is a silly panel that shows various panel formatting techniques, as well
+as demonstrating how to display certain non-intuitive properties, such as
+Booleans as checkboxes and FloatVectors as color pickers.
