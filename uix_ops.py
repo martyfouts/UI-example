@@ -89,7 +89,7 @@ class UIX_OT_hello(Operator):
 
         # Next up we add a keymap entry
         # This is from a stackexchange answer but it is not clear to me
-        # that 
+        # how key maps / shortcuts really work.
         key_config = bpy.context.window_manager.keyconfigs.addon
         if key_config:
             key_map = key_config.keymaps.new(name='3D View', space_type='VIEW_3D')
@@ -118,7 +118,7 @@ class UIX_OT_hello(Operator):
 # for an explanation of these additional classes
 
 # For a custom conformation dialog you can wrap the operator into another one and invoke
-# invoke_confirm(operator, event) classmethod of the window-manager to confirm the
+# invoke_confirm(operator, event) class method of the window-manager to confirm the
 # execution by the user.
 
 class UIX_OT_ConfirmOperator(bpy.types.Operator):

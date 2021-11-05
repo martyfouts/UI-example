@@ -24,7 +24,7 @@ def add_button(layout,
     row.operator(button_op, text=button_text)
 
 # These panels will all appear when the "UIX" tab in the sidebar is selected.
-# They are tied to that tab because the bl_category is "UIX"
+# They are tied to that tab because the bl_category is "UIX".
 #
 # The  appear in the order they were registered,
 # unless they are assign an order using bl_order
@@ -81,34 +81,34 @@ class UIX_PT_fancy_panel(Panel, UIX_panel_common):
     def draw(self, context):
         layout = self.layout
 
-        # This is not working. I don't know why
+        # This is not working. I don't know why.
         layout.alignment = 'CENTER'
 
-        # Overall label at top of panel
+        # Overall label at top of panel.
         layout.label(text="fancy panel")
 
         # A wee bit of space.
         layout.separator()
 
-        # A label consisting of just an icon
+        # A label consisting of just an icon.
         layout.label(icon="BLENDER")
 
         # A row, consisting of two columns.
         row = layout.row()
-        # The first column goes on the left
-        # Here I put a simple operator
-        # Note the use of an icon
+        # The first column goes on the left.
+        # Here I put a simple operator.
+        # Note the use of an icon.
         col = row.column()
         col.label(text="L")
         col.operator("uix.hello", text="fancy hello", icon='TRASH')
-        # The second column goes on the right
-        # Here I duplicate the simple operator
-        # But without an icon
+        # The second column goes on the right.
+        # Here I duplicate the simple operator,
+        # But without an icon.
         col = row.column()
         col.label(text='R')
         col.operator("uix.hello")
 
-        # A new row, dedicated to custom properties
+        # A new row, dedicated to custom properties.
         # It has a single column that contains several
         # examples of displays of custom properties
         # that are attached to the scene.
@@ -119,7 +119,7 @@ class UIX_PT_fancy_panel(Panel, UIX_panel_common):
         col.prop(context.scene, 'check_box')
         col.prop(context.scene, 'example_color')
 
-        # A new row, dedicated to examples of confirmation dialogs
+        # A new row, dedicated to examples of confirmation dialogs.
         # These are from a stack exchange answer (See uix_ops.py
         # for references and details.)
         row = layout.row()

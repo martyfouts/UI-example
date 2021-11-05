@@ -63,7 +63,7 @@ classes = [
 ]
 
 #------------------------------------------------------------------------------
-# This is a bit of a hack, simply to show various properties in Use.
+# This is a bit of a hack, simply to show various properties in use.
 # You can't attach operator properties to a panel, so instead, this creates
 # example properties and attaches them to the Scene type so they can be
 # accessed in one of the panels

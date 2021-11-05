@@ -8,7 +8,7 @@ show various ways to set three parts of a text message, the sender
 receiver and body, and use buttons to to display the message.
 
 Additionally, they showed how to add a shortcut for the button and
-place menu entries in various menus
+place menu entries in various menus.
 
 An additional class contains the skeleton of an importer that uses
 the file browser.
@@ -17,26 +17,26 @@ the file browser.
 ## `UIX_OT_hello`
 
 The original operator from the project, when invoked it displays a message
-in each of several ways
+in each of several ways:
 
-- calls `ShowMessageBox` to display a message using a popup menu
-- prints the message (goes to the terminal window)
-- calls `report` to report the message as an info message
+- calls `ShowMessageBox` to display a message using a popup menu,
+- prints the message (goes to the terminal window), and
+- calls `report` to report the message as an info message.
 
 The `initialize` routine also adds menu entries for the operator to two
-menus as examples of how to add menu entries.  It additionall creates
+menus as examples of how to add menu entries.  It additionally creates
 a shortcut (CTRL-W) as a demonstration of how to do that.
 
-The `deinintialize` routine removes the menu entries and shortcut.
+The `deinitialize` routine removes the menu entries and shortcut.
 
 ## `UIX_OT_ConfirmOperator`
 
-An example of how to invoke a dialog box using `window_manager.invoke_confirm`
+An example of how to invoke a dialog box using `window_manager.invoke_confirm`.
 
 ## `UIX_OT_PropConfirmOperator`
 
 An example of how to invoke a dialog box with properties that can be
-changed using `window_manager.invoke_props_dialog`
+changed using `window_manager.invoke_props_dialog`.
 
 ## `UIX_OT_ImportFiles`
 
@@ -61,7 +61,7 @@ to have code added to read and process the contents of the file.
 
 ### `initialize` and `deinitialize`
 
-Add/remove an entry in the top bar File -> import menu
+Add/remove an entry in the top bar File -> import menu.
 
 # Panels
 
