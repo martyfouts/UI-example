@@ -37,12 +37,14 @@ if 'bpy' in locals():
 
 import types
 import bpy
-from bpy.types import Scene
+from bpy.types import Scene, Operator, AddonPreferences
+from bpy.props import StringProperty, IntProperty, BoolProperty
 
 from . uix_ops import (UIX_OT_hello,
                         UIX_OT_ConfirmOperator,
                         UIX_OT_PropConfirmOperator,
                         UIX_OT_ImportFiles,
+                        UIX_OT_display_preferences,
 )
 
 from . uix_panel import (UIX_PT_side_panel, 
@@ -50,6 +52,37 @@ from . uix_panel import (UIX_PT_side_panel,
                         UIX_PT_sub_panel, 
                         UIX_PT_fancy_panel,
 )
+
+# An example of Add-on specific preferences modified from
+# https://docs.blender.org/api/current/bpy.types.AddonPreferences.html
+
+class UIXAddonPreferences(AddonPreferences):
+    # this must match the add-on name, use '__package__'
+    # when defining this in a submodule of a python package.
+    bl_idname = __package__
+
+    filepath: StringProperty(
+        name="Example File Path",
+        subtype='FILE_PATH',
+        default=r'C:\tmp'
+    )
+    number: IntProperty(
+        name="Example Number",
+        default=4,
+    )
+    boolean: BoolProperty(
+        name="Example Boolean",
+        default=True,
+    )
+
+    def draw(self, context):
+        layout = self.layout
+        layout.label(text="UIX demonstration preferences")
+        layout.prop(self, "filepath")
+        layout.prop(self, "number")
+        layout.prop(self, "boolean")
+
+
 
 classes = [
             UIX_OT_hello,
@@ -60,6 +93,8 @@ classes = [
             UIX_OT_ConfirmOperator,
             UIX_OT_PropConfirmOperator,
             UIX_OT_ImportFiles,
+            UIXAddonPreferences,
+            UIX_OT_display_preferences,
 ]
 
 #------------------------------------------------------------------------------

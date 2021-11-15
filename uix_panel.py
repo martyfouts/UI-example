@@ -139,3 +139,9 @@ class UIX_PT_fancy_panel(Panel, UIX_panel_common):
         # session is dirty.
         row.operator_context = 'INVOKE_DEFAULT' #'INVOKE_AREA'
         row.operator("wm.read_homefile", text="New", icon='FILE_NEW')
+        row = layout.row()
+        # A button to select the operator to display the add-on's addon preferences
+        row.separator()
+        col = row.column()
+        col.label(text="Addon properties")
+        col.operator("uix.display_preferences")

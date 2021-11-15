@@ -202,3 +202,26 @@ class UIX_OT_ImportFiles(bpy.types.Operator):
 
     def deinitialize():
         bpy.types.TOPBAR_MT_file_import.remove(UIX_menu_import)
+
+# an operator to demonstrate the use of addon preferences
+# this is invoked by a button in the fancy panel and simply
+# reports an info message of the example properties.
+class UIX_OT_display_preferences(Operator):
+    """Display example preferences"""
+    bl_idname = "uix.display_preferences"
+    bl_label = "Add-on Preferences Example"
+    bl_options = {'REGISTER', 'UNDO'}
+
+    def execute(self, context):
+        preferences = context.preferences
+        addon_preferences = preferences.addons[__package__].preferences
+
+        info = ("Path: %s, Number: %d, Boolean %r" %
+                (addon_preferences.filepath,
+                addon_preferences.number,
+                addon_preferences.boolean))
+
+        self.report({'INFO'}, info)
+        print(info)
+
+        return {'FINISHED'}
