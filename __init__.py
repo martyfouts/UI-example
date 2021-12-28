@@ -121,6 +121,15 @@ def add_properties():
         default=True,
     )
 
+    # This will track a range of 1 - 32 booleans. The panel entry for this
+    # displays three different ways of displaying such an array
+    bpy.types.Scene.boolArray = bpy.props.BoolVectorProperty(
+        name = "bool vector",
+        description = "sample of a Boolean Vector",
+        size = 5,
+        default = (False,) * 5,
+    )
+
     # FloatVectorProperty is rather amusing because its subtype determines
     # both what it contains and how it appears in a panel or other display
     bpy.types.Scene.example_color = bpy.props.FloatVectorProperty(

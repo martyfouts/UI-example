@@ -64,6 +64,9 @@ class UIX_PT_sub_panel(Panel, UIX_panel_common):
         col = self.layout.column()
         col.prop(context.scene, "GreetingText")
 
+# Icons to use for the Boolean Vector.  These are nonsense, only for show
+boolIcons = [ 'QUESTION', 'ERROR', 'CANCEL', 'TOPBAR', 'STATUSBAR']
+boolNames = [ 'Question', 'Error', 'Cancel', 'Top Bar', 'Status Bar']
 # see https://docs.blender.org/api/current/bpy.types.Panel.html#bpy.types.Panel
 # for details about the bl_* values
 # see https://docs.blender.org/api/current/bpy.types.UILayout.html#bpy.types.UILayout
@@ -118,6 +121,23 @@ class UIX_PT_fancy_panel(Panel, UIX_panel_common):
         col.label(text="Custom properties")
         col.prop(context.scene, 'check_box')
         col.prop(context.scene, 'example_color')
+
+        # A new row, showing one way to display
+        # A boolean vector property
+        row = layout.row(align=True)
+        for index in range(5):
+            row.prop(context.scene, 'boolArray', index=index, 
+                icon_only=True,
+                icon=boolIcons[index],
+            )
+        
+        # One new row per boolean vector entry showing another
+        # way
+        for index in range(5):
+            row = layout.row()
+            row.prop(context.scene, 'boolArray', index=index,
+                text=boolNames[index],
+            )
 
         # A new row, dedicated to examples of confirmation dialogs.
         # These are from a stack exchange answer (See uix_ops.py
