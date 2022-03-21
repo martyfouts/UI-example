@@ -43,6 +43,11 @@ changed using `window_manager.invoke_props_dialog`.
 An example of an importer class using the file browser to select a collection
 of files and then process each file separately.  The 'process' part is skeleton.
 
+## `UIX_OT_display_preferences`
+
+An example demonstration of the use of preferences. It displays the current value
+of the preferences.
+
 ### `invoke`
 
 Calls the window manager to invoke the file browser: 
@@ -97,3 +102,18 @@ to the scene, that the panel can be used to change.
 This is a silly panel that shows various panel formatting techniques, as well
 as demonstrating how to display certain non-intuitive properties, such as
 Booleans as checkboxes and FloatVectors as color pickers.
+
+# Preferences
+
+Preferences are basically implemented by creating a class that inherits from `AddonPreferences`
+and giving it a `draw` routine. The individual preferences are Blender Properties and the
+draw routine sets up the layout used in the preferences section of the Add-on's description
+in preferences -> add-ons.
+
+## `UIXAddonPreferences` inherits from `bpy.types.AddonPreferences` and in the example
+contains 3 properties.
+
+# Keymap
+
+The keymap code is not well written nor robust but it demonstrates a pattern for adding a 
+custom keymap (in the ops class)
