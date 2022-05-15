@@ -16,7 +16,6 @@ from bpy.types import Operator, OperatorFileListElement
 from bpy.props import CollectionProperty, StringProperty
 from pathlib import Path
 
-hello_keymap = None
 default_directory = r'c:\tmp' # ugly Windows specificity fix later
 
 def ShowMessageBox(message = "", title = "Message Box", icon = 'INFO'):
@@ -90,29 +89,32 @@ class UIX_OT_hello(Operator):
         # Next up we add a keymap entry
         # This is from a stackexchange answer but it is not clear to me
         # how key maps / shortcuts really work.
-        key_config = bpy.context.window_manager.keyconfigs.addon
-        if key_config:
-            key_map = key_config.keymaps.new(name='3D View', space_type='VIEW_3D')
-            key_entry = key_map.keymap_items.new(UIX_OT_hello.bl_idname,
-                                                                type='W',
-                                                                value='PRESS',
-                                                                ctrl=True,
-            )
-            hello_keymap = (key_map, key_entry)
-
+        keymap = bpy.context.window_manager.keyconfigs.addon.keymaps.new(
+            name='3D View',
+            space_type='VIEW_3D'
+        )
+        keymap.keymap_items.new(
+                UIX_OT_hello.bl_idname,
+                type='W',
+                value='PRESS',
+                ctrl=True,
+        )
 
     # Local convention.  If a class has an initialize it might also need to
     # undo the initialization through this routine that is called from
     # __init__'s unregister routine before the class is unregistered.
     def deinitialize():
         print('AZWOY')
-        if hello_keymap:
-            key_map, key_entry = hello_keymap
-            key_map.keymap_items.remove(key_entry)
-            bpy.context.window_manager.keyconfigs.addon.keymaps.remove(key_map)
-
         bpy.types.VIEW3D_MT_mesh_add.remove(mesh_add_menu_draw)
         bpy.types.VIEW3D_HT_header.remove(mesh_add_menu_draw)
+        keymap = bpy.context.window_manager.keyconfigs.addon.keymaps.new(
+            name='3D View',
+            space_type='VIEW_3D'
+        )
+        for item in keymap.keymap_items:
+            if item.idname == UIX_OT_hello.bl_idname:
+                keymap.keymap_items.remove(item)
+
 
 # see https://blender.stackexchange.com/questions/73286/how-to-call-a-confirmation-dialog-box
 # for an explanation of these additional classes
